@@ -1,0 +1,23 @@
+title: Transform Data and AI solutions with Azure AI Platform 
+description: This lab enables you to integrate Azure AI Platform capabilities into an innovative solution that can help enhance the customer experience and operational efficiency.
+
+aux_links:
+  "TechExcel Transform Data and AI solutions with Azure AI Platform": 
+    - "https://github.com/microsoft/TechExcel-Transform-Data-and-AI-solutions-with-Azure-AI-Platform"
+
+callouts_level: quiet # or loud
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note 
+    color: purple
+  warning:
+    title: Warning
+    color: red
