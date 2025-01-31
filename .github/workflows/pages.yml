@@ -50,12 +50,21 @@ jobs:
           path: _site/  # Explicitly define the _site/ directory
 
   deploy:
-    environment:
-      name: github-pages
-      url: "${{ steps.deployment.outputs.page_url }}"
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+  environment:
+    name: github-pages
+    url: "${{ steps.deployment.outputs.page_url }}"
+  runs-on: ubuntu-latest
+  needs: build
+  steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: github-pages  # Must match upload step!
+        path: _site/  # Ensure files go to the right location
+
+    - name: Debug downloaded files
+      run: ls -la _site/  # Check if files are downloaded correctly
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
