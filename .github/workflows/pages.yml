@@ -10,34 +10,26 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1) Check out your code
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # Step 1: Check out your repository code
+      - uses: actions/checkout@v3
 
-      # 2) Set up Ruby
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      # Step 2: Setup Ruby
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      # 3) Install any dependencies from your Gemfile
-      - name: Install dependencies
-        run: bundle install
+      # Step 3: Install dependencies (Gemfile)
+      - run: bundle install
 
-      # 4) Optionally configure Pages (adds some ENV vars) 
-      - name: Configure Pages
-        uses: actions/configure-pages@v3
+      # Step 4: Configure Pages (optional but recommended)
+      - uses: actions/configure-pages@v3
 
-      # 5) Build with Jekyll
+      # Step 5: Build your Jekyll site
       - name: Build Jekyll
         run: |
           bundle exec jekyll build --trace
@@ -45,24 +37,25 @@ jobs:
         env:
           JEKYLL_ENV: production
 
-      # 6) Upload the built site as an artifact (name = "github-pages")
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      # Step 6: Upload the generated _site/ folder as an artifact named "github-pages"
+      - uses: actions/upload-artifact@v4
         with:
           name: github-pages
           path: _site/
-  
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      # optionally capture the URL of the deployment
-      url: "${{ steps.deployment.outputs.page_url }}"
     steps:
-      # 7) Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      # Step 7: Deploy to GitHub Pages
+      - uses: actions/deploy-pages@v2
         with:
-          artifact_name: your-custom-name   # Must match the name above
+          # Not strictly required if the artifact is named "github-pages",
+          # but you can set it explicitly if you want:
+          # artifact_name: github-pages
+          # Ensures this is the artifact you just uploaded.
+          #
+          # Omit if you used "github-pages" as the upload name (default).
+          #
+          # If you used a different name above, you MUST specify it here.
+          # artifact_name: "my-other-name"
