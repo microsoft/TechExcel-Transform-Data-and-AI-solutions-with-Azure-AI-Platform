@@ -39,13 +39,14 @@ jobs:
       - name: Build with Jekyll
         run: |
           bundle exec jekyll build --trace --verbose
-          ls -la _site/  # Debug: Verify _site is generated
+          ls -la _site/  # Debugging: Verify _site is generated
         env:
           JEKYLL_ENV: production
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
+          name: github-pages
           path: _site/  # Explicitly define the _site/ directory
 
   deploy:
@@ -57,4 +58,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
