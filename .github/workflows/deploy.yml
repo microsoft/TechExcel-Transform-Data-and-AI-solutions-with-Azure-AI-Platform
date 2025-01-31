@@ -1,11 +1,11 @@
 # .github/workflows/deploy.yml
 
-name: Deploy Jekyll site to GitHub Pages
+name: Deploy Jekyll Site to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow on pushes to the main branch
+      - main  # Change this if your default branch is not 'main'
   workflow_dispatch:
 
 permissions:
@@ -18,19 +18,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repository
+      # 1. Check out the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          # Fetch all history for all branches and tags
-          fetch-depth: 0
+          fetch-depth: 0  # Ensures full history for deployment
 
-      # 2. Setup Ruby
+      # 2. Set up Ruby environment
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # Specify Ruby version
-          bundler-cache: true # Caches installed gems
+          ruby-version: '3.1'  # Specify the Ruby version you need
+          bundler-cache: true    # Caches gems to speed up builds
 
       # 3. Install dependencies
       - name: Install Dependencies
@@ -38,16 +37,20 @@ jobs:
 
       # 4. Build the Jekyll site
       - name: Build Jekyll Site
-        run: bundle exec jekyll build
+        run: |
+          bundle exec jekyll build --trace
+          ls -la _site/  # Verify build output
         env:
           JEKYLL_ENV: production
 
-      # 5. Deploy to gh-pages branch
+      # 5. Deploy to GitHub Pages using peaceiris/actions-gh-pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-          publish_branch: gh-pages
-          force_orphan: false
-          keep_files: true
+          publish_branch: gh-pages  # Must match the branch set in GitHub Pages settings
+          # Optional Parameters:
+          # commit_message: "Deploy Jekyll site to GitHub Pages"
+          # force_orphan: false
+          # keep_files: true
