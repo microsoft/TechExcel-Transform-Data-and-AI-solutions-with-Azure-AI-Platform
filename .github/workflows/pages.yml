@@ -50,6 +50,7 @@ jobs:
       # Step 7: Deploy to GitHub Pages
       - uses: actions/deploy-pages@v2
          with:
+          name: github-pages
           # Not strictly required if the artifact is named "github-pages",
           # but you can set it explicitly if you want:
           # artifact_name: github-pages
