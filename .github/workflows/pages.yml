@@ -90,4 +90,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: ./_site
-          publish_dir: ./_site
