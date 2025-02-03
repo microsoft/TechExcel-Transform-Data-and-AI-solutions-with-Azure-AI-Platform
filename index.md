@@ -6,11 +6,7 @@ nav_order: 1
 
 # TechExcel: Transform Data and AI solutions with Azure AI Platform 
 
-**The estimated time to complete this lab is (TBD) minutes.**
-
-At the end of this lab, you'll be able to:
-
-- TDB
+The estimated time to complete this lab is **120 minutes.**
 
 ## Customer scenario
 
@@ -30,6 +26,7 @@ Lastly, Adatum seeks to integrate customer data and feedback to create a persona
 
 Current achitecture
 
+![currentArchiotecture.jpg](..docs//media/currentArchitecture.jpg)
 
 
 ## Trying to accomplish
@@ -46,7 +43,11 @@ By the end of this workshop, you’ll be able to:
 ## Exercises
 
 This lab has exercises on:
-- TBD
+- Performing prompt engineering.
+- Adding data and creating a search index.
+- Configuring and testing content moderation capabilities using the Content Safety tool.
+- Analyzing text for violence filtering.
+- Understanding the integration of GPT-4o-mini model's built-in content moderation.
 
 ## Disclaimer
 
