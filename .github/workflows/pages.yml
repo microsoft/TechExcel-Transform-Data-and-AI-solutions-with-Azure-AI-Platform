@@ -4,6 +4,7 @@
 # documentation.
 
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
+
 name: Deploy Jekyll site to Pages
 
 on:
@@ -50,6 +51,11 @@ jobs:
         env:
           JEKYLL_ENV: production
 
+      - name: Remove symlinks
+        run: |
+          find _site -type l -exec rm -f {} \;
+          ls -la _site/  # Debugging: Verify symlinks are removed
+
       - name: Debug uploaded files
         run: ls -la _site/
 
@@ -80,13 +86,6 @@ jobs:
           fi
           if [ -z "$(ls -A _site)" ]; then
             echo "Error: _site directory is empty."
-            exit 1
-          fi
-
-      - name: Check for symlinks
-        run: |
-          if find _site -type l | read; then
-            echo "Error: Symlinks found in _site directory."
             exit 1
           fi
 
