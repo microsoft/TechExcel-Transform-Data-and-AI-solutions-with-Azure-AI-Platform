@@ -26,7 +26,7 @@ Lastly, Adatum seeks to integrate customer data and feedback to create a persona
 
 Current achitecture
 
-![currentArchitecture.png](..docs//media/currentArchitecture.png)
+![currentArchitecture.png](docs/media/currentArchitecture.png.png)
 
 
 ## Trying to accomplish
