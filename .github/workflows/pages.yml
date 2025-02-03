@@ -72,3 +72,31 @@ jobs:
         with:
           name: github-pages
           path: ./_site
+     
+      - name: List downloaded files
+        run: ls -la ./_site
+
+      - name: Verify downloaded files
+        run: |
+          if [ ! -d "./_site" ]; then
+            echo "Error: _site directory does not exist."
+            exit 1
+          fi
+          if [ -z "$(ls -A ./_site)" ]; then
+            echo "Error: _site directory is empty."
+            exit 1
+          fi
+
+      - name: Check for symlinks
+        run: |
+          if find ./_site -type l | read; then
+            echo "Error: Symlinks found in _site directory."
+            exit 1
+          fi
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./_site
