@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,8 +31,8 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'           # Use your required Ruby version
-          bundler-cache: true           # Caches gems to speed up builds
+          ruby-version: '3.1'
+          bundler-cache: true
           cache-version: 0
           path-ignore: 'Solution/**'
 
@@ -59,15 +59,22 @@ jobs:
           name: github-pages
           path: _site/
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: _site/
+          path: ./_site
 
       - name: List downloaded files
-        run: ls -la _site/
+        run: ls -la ./_site
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./_site
