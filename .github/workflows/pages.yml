@@ -36,15 +36,38 @@ jobs:
           cache-version: 0
           path-ignore: 'Solution/**'
 
+      - name: Install dependencies
+        run: bundle install
+
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v3
 
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        run: |
+          bundle exec jekyll build --trace --verbose
+          ls -la _site/  # Debugging: Verify _site is generated
         env:
           JEKYLL_ENV: production
 
+      - name: Debug uploaded files
+        run: ls -la _site/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: _site/
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: _site/
+
+      - name: List downloaded files
+        run: ls -la _site/
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
